@@ -65,17 +65,18 @@ Client.prototype._requestData = function(customerid, method, extraPath) {
  * Set or update information about a user in the Customer.IO database.
  * @param {String} customerid - The user's unique ID.
  * @param {String} email - The user's email address.
+ * @param {Date} created_at - The user's creation time.
  * @param {Object} data - Metadata about the user.
  * @returns {Promise} A promise resolved on success or rejected with error on failure.
  */
-Client.prototype.identify = function createUser(customerid, email, data) {
+Client.prototype.identify = function createUser(customerid, email, created_at, data) {
 
-  if (!customerid || !email) {
-    throw new Error('must supply customerid and email');
+  if (!customerid || !email || !created_at) {
+    throw new Error('must supply customerid created_at and email');
   }
 
   data = _.clone(data);
-  data.created_at = Date.now();
+  data.created_at = created_at;  
   data.email = email;
 
   var deferred = Q.defer()
